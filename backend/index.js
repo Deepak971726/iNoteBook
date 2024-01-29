@@ -1,5 +1,5 @@
-const express = require('express')
 const connectTOMongo = require("./db")
+const express = require('express')
 connectTOMongo();
 
 
@@ -11,8 +11,8 @@ const port = 5000
 
 app.use(express.json())
 
-app.use('/api/auth',require('./routes/auth.js'))
-app.use('/api/notes',require('./routes/notes.js'))
+app.use('/api/auth',require('./routes/auth'))
+app.use('/api/notes',require('./routes/notes'))
 
 app.get('/', (req, res) => {
   res.send('Hello deepak bhaii!')
