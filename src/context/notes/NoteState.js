@@ -28,10 +28,21 @@ const NoteState =(props)=>{
   //  const json= respose.json
     }
   //delete a note
-  const deleteNote=(id)=>{
+  const deleteNote=async(id)=>{
     const newNotes = notes.filter((note)=>{return note._id!==id});
-    console.log("deleting the note id:"+id);
+    // console.log("deleting the note id:"+id);
     setNotes(newNotes);
+    const url = `${host}/api/notes/deletenote/${id}`
+    const respose = await fetch(url,{
+      method:"DELETE",
+      headers:{
+        "Content-Type":"application/json",
+        "auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjViNzNiNmY2ZDNkMjVhMzA2MjZiMWQ5In0sImlhdCI6MTcwNjUwNzY4Nn0.T_Saqw7lh3uCRgfQHdqx0DVy3M23aI05zcarMWXsu4w"
+      }
+      // body: JSON.stringify(e)
+    })
+    // const json = await respose.json();
+    
   }
 
     
@@ -47,8 +58,8 @@ const NoteState =(props)=>{
         headers:{
           "Content-Type":"application/json",
           "auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjViNzNiNmY2ZDNkMjVhMzA2MjZiMWQ5In0sImlhdCI6MTcwNjUwNzY4Nn0.T_Saqw7lh3uCRgfQHdqx0DVy3M23aI05zcarMWXsu4w"
-        }
-        // body: JSON.stringify(e)
+        },
+        body: JSON.stringify(e)
       })
     //  const json= respose.json();
 
@@ -69,32 +80,32 @@ const NoteState =(props)=>{
     // Edit a note
     const editNote=async(id,title,discription,tag)=>{
       //API call
-      const url = `${host}/api/notes/notes/updatenote/${id}`
+
+       
+
+      const url = `${host}/api/notes/updatenote/${id}`
       const response = await fetch(url,{
         method:"PUT",
         headers:{
           "Content-Type":"application/json",
           "auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjViNzNiNmY2ZDNkMjVhMzA2MjZiMWQ5In0sImlhdCI6MTcwNjUwNzY4Nn0.T_Saqw7lh3uCRgfQHdqx0DVy3M23aI05zcarMWXsu4w"
         },
-        // body: JSON.stringify()
+        body: JSON.stringify({title,discription,tag})
       })
-    //  const json= respose.json();
-      // setNotes(respose.json());
 
-      //logic to edit 
-        for (let index = 0; index < notes.length; index++) {
-          if(notes[index]._id===id){
-            notes[index].title = title
-            notes[index].discription = discription
-            notes[index].tag = tag
-          }
-          
+
+      let newNote = await  JSON.parse(JSON.stringify(notes))
+      for (let index = 0; index < newNote.length; index++) {
+        if(newNote[index]._id===id){
+          newNote[index].title = title
+          newNote[index].discription = discription
+          newNote[index].tag = tag
+          break;
         }
         
-
-       
-
-
+      }
+      setNotes(newNote);
+      
     }
     return(
         <NoteContext.Provider value={{notes,addNote,deleteNote,editNote,getNotes}}>
