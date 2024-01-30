@@ -1,5 +1,6 @@
 const connectTOMongo = require("./db")
 const express = require('express')
+var cors = require('cors')
 connectTOMongo();
 
 
@@ -8,6 +9,7 @@ const port = 5000
 
 
 // available routes
+app.use(cors());
 
 app.use(express.json())
 

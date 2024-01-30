@@ -5,49 +5,99 @@ import NoteContext from "./noteContext";
 
 
 const NoteState =(props)=>{
-   
-    const noteInitial=[
-        {
-          "_id": "65b7567b90a86a6b137e7448",
-          "user": "65b73b6f6d3d25a30626b1d9",
-          "title": "this is a new note",
-          "discription": "kya karega description leke",
-          "tag": "for testing purpose",
-          "data": "2024-01-29T07:40:43.324Z",
-          "__v": 0
-        },
-        {
-          "_id": "65b7845b5727ea8a0b8b2ea3",
-          "user": "65b73b6f6d3d25a30626b1d9",
-          "title": "error",
-          "discription": "error kyu aa rha hai bro please tell abou that",
-          "tag": "love errors",
-          "data": "2024-01-29T10:56:27.230Z",
-          "__v": 0
-        },
-        {
-          "_id": "65b784835727ea8a0b8b2ea5",
-          "user": "65b73b6f6d3d25a30626b1d9",
-          "title": "title is herer",
-          "discription": "description is here but is not useful",
-          "tag": "fcu",
-          "data": "2024-01-29T10:57:07.575Z",
-          "__v": 0
-        },
-        {
-          "_id": "65b784aa5727ea8a0b8b2ea8",
-          "user": "65b73b6f6d3d25a30626b1d9",
-          "title": "fouth times",
-          "discription": "what should i do i feel like i want to die",
-          "tag": "fcu",
-          "data": "2024-01-29T10:57:46.225Z",
-          "__v": 0
-        }
-      ]
+   const host = "http://localhost:5000"
+    const noteInitial=[]
 
     const [notes,setNotes] =useState(noteInitial)
+    // get all notes
+
+    const getNotes=async()=>{
+      //todo api call
+      const url = `${host}/api/notes/fetchallnotes`
+    const respose = await fetch(url,{
+      method:"GET",
+      headers:{
+        // "Content-Type":"application/json",
+        "auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjViNzNiNmY2ZDNkMjVhMzA2MjZiMWQ5In0sImlhdCI6MTcwNjUwNzY4Nn0.T_Saqw7lh3uCRgfQHdqx0DVy3M23aI05zcarMWXsu4w"
+      }
+      // body: JSON.stringify(e)
+    })
+    const json = await respose.json();
+    // console.log(json);
+    setNotes(json)
+  //  const json= respose.json
+    }
+  //delete a note
+  const deleteNote=(id)=>{
+    const newNotes = notes.filter((note)=>{return note._id!==id});
+    console.log("deleting the note id:"+id);
+    setNotes(newNotes);
+  }
+
+    
+
+
+
+    // add a note
+      const addNote=async(e)=>{
+        //todo api call
+        const url = `${host}/api/notes/addnote`
+      const response = await fetch(url,{
+        method:"POST",
+        headers:{
+          "Content-Type":"application/json",
+          "auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjViNzNiNmY2ZDNkMjVhMzA2MjZiMWQ5In0sImlhdCI6MTcwNjUwNzY4Nn0.T_Saqw7lh3uCRgfQHdqx0DVy3M23aI05zcarMWXsu4w"
+        }
+        // body: JSON.stringify(e)
+      })
+    //  const json= respose.json();
+
+
+        
+        console.log("adding a note")
+        const note ={ "_id": "65b784aaa5727ea8a0b8b2ea8",
+        "user": "65b73b6f6d3d25a30626b1d9",
+        "title":   e.title,
+        "discription": e.discription,
+        "tag": "fcu",
+        "data": "2024-01-29T10:57:46.225Z",
+        "__v": 0}
+        setNotes(notes.concat(note))
+      }
+    //delete a note
+    
+    // Edit a note
+    const editNote=async(id,title,discription,tag)=>{
+      //API call
+      const url = `${host}/api/notes/notes/updatenote/${id}`
+      const response = await fetch(url,{
+        method:"PUT",
+        headers:{
+          "Content-Type":"application/json",
+          "auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjViNzNiNmY2ZDNkMjVhMzA2MjZiMWQ5In0sImlhdCI6MTcwNjUwNzY4Nn0.T_Saqw7lh3uCRgfQHdqx0DVy3M23aI05zcarMWXsu4w"
+        },
+        // body: JSON.stringify()
+      })
+    //  const json= respose.json();
+      // setNotes(respose.json());
+
+      //logic to edit 
+        for (let index = 0; index < notes.length; index++) {
+          if(notes[index]._id===id){
+            notes[index].title = title
+            notes[index].discription = discription
+            notes[index].tag = tag
+          }
+          
+        }
+        
+
+       
+
+
+    }
     return(
-        <NoteContext.Provider value={{notes,setNotes}}>
+        <NoteContext.Provider value={{notes,addNote,deleteNote,editNote,getNotes}}>
             {props.children}
         </NoteContext.Provider>
     )
