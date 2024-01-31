@@ -41,6 +41,7 @@ const NoteState =(props)=>{
       }
       // body: JSON.stringify(e)
     })
+    console.log(respose)
     // const json = await respose.json();
     
   }
@@ -59,21 +60,11 @@ const NoteState =(props)=>{
           "Content-Type":"application/json",
           "auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjViNzNiNmY2ZDNkMjVhMzA2MjZiMWQ5In0sImlhdCI6MTcwNjUwNzY4Nn0.T_Saqw7lh3uCRgfQHdqx0DVy3M23aI05zcarMWXsu4w"
         },
-        body: JSON.stringify(e)
+        body: JSON.stringify({title:e.title,discription:e.discription,tag:e.tag})
       })
-    //  const json= respose.json();
-
-
-        
-        console.log("adding a note")
-        const note ={ "_id": "65b784aaa5727ea8a0b8b2ea8",
-        "user": "65b73b6f6d3d25a30626b1d9",
-        "title":   e.title,
-        "discription": e.discription,
-        "tag": "fcu",
-        "data": "2024-01-29T10:57:46.225Z",
-        "__v": 0}
+       const note = await response.json();
         setNotes(notes.concat(note))
+        // getNotes();
       }
     //delete a note
     
@@ -92,6 +83,7 @@ const NoteState =(props)=>{
         },
         body: JSON.stringify({title,discription,tag})
       })
+      console.log(response)
 
 
       let newNote = await  JSON.parse(JSON.stringify(notes))

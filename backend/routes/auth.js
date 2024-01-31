@@ -21,6 +21,7 @@ router.post(
     }),
   ],
   async (req, res) => {
+    let success = false
     // send the error in if information is not correct return bad request
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -51,7 +52,8 @@ router.post(
       const authToken = jwt.sign(data,JWT_SECRET);
       // console.log(authToken)
       // res.json(user)
-      res.json(authToken);
+      success=true
+      res.json({success,authToken});
 
     } catch (err) {
       console.error(err.message);
@@ -73,34 +75,37 @@ router.post("/login",
     body("password", "password can not be blank").exists(),
   ],
   async (req, res) => {
+    let success = false;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
     const {email,password} = req.body
     try {
-
-      let user =await User.findOne({email})
-      if(!user){
-        return res.status(400).json({error:"Please try to correct credential"})
+      let user = await User.findOne({ email });
+      if (!user) {
+        success = false
+        return res.status(400).json({ error: "Please try to login with correct credentials" });
       }
-      const passwordCompare =await bcrypt.compare(password,user.password);
-      if(!passwordCompare){
-        return res.status(400).json({error:"Please try to correct credential"})
+  
+      const passwordCompare = await bcrypt.compare(password, user.password);
+      if (!passwordCompare) {
+        success = false
+        return res.status(400).json({ success, error: "Please try to login with correct credentials" });
       }
+  
       const data = {
-        user:{
-          id:user.id
-        } 
+        user: {
+          id: user.id
+        }
       }
-      const authToken = jwt.sign(data,JWT_SECRET);
-      res.json(authToken);
-      
-    } catch (err) {
-
-      console.error(err.message);
-      res.status(500).send('Internal Error occured')
-      
+      const authtoken = jwt.sign(data, JWT_SECRET);
+      success = true;
+      res.json({ success, authtoken })
+  
+    } catch (error) {
+      console.error(error.message);
+      res.status(500).send("Internal Server Error");
     }
   
 

@@ -7,7 +7,7 @@ const AddNote = () => {
     const handleOnClink=(e)=>{
         e.preventDefault();
         addNote(note);
-        // setnote({title:"",discription:"",tag:""})
+        setnote({title:"",discription:"",tag:""})
     }
     const onChange=(e)=>{
         setnote({...note,[e.target.name]:e.target.value})
@@ -19,18 +19,18 @@ const AddNote = () => {
       <form>
         <div className="mb-3">
           <label htmlFor="title" className="form-label">title</label>
-          <input type="text" className="form-control" name='title' id="tile" aria-describedby="emailHelp"  onChange={onChange}/>
+          <input type="text" className="form-control" name='title' id="tile" aria-describedby="emailHelp" value={note.title} onChange={onChange}/>
         </div>
         <div className="mb-3">
           <label htmlFor="discription" className="form-label">Descrition</label>
-          <input type="text" className="form-control" id="discription" name='discription' onChange={onChange}/>
+          <input type="text" className="form-control" id="discription" name='discription' value={note.discription} onChange={onChange}/>
         </div>
         <div className="mb-3">
-          <label htmlFor="tag" className="form-label">Tag</label>
-          <input type="text" className="form-control" id="tag" name='tag' onChange={onChange}/>
+          <label htmlFor="tag" className="form-label" >Tag</label>
+          <input type="text" className="form-control" id="tag" name='tag' value={note.tag} onChange={onChange}/>
         </div>
          
-        <button type="submit" className="btn btn-primary" onClick={handleOnClink}>Add a Note</button>
+        <button disabled ={note.discription.length<5 || note.title.length<5} type="submit" className="btn btn-primary" onClick={handleOnClink}>Add a Note</button>
       </form>
     </div>
   )
