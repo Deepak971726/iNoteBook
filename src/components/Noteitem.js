@@ -10,6 +10,7 @@ const Noteitem = (props) => {
 
     const onClickDelete=(e)=>{
         deleteNote(e);
+        props.showAlert("Your Note has been Deleted Successfully","danger");
     }
      
   return (

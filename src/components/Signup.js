@@ -2,7 +2,7 @@ import React from 'react'
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-const Signup = () => {
+const Signup = (props) => {
     const initialState ={name:"",email:"",password:"",cpassword:""};
     const [credintial, setcredintial] = useState(initialState)
     let history = useHistory();
@@ -24,17 +24,22 @@ const Signup = () => {
             if(json.success){
                 //redirect
                 localStorage.setItem('token',json.authtoken)
+                props.showAlert("Your Note has been Updated Successfully","success");
                 history.push('/');
                 
             }
             else{
-                alert('please enter the valid credential')
+                // alert('please enter the valid credential')
+                props.showAlert("Please Enter the valid credential","danger");
+
             }
 
         }
         else{
 
-            alert('Your password did not match correctly')
+            // alert('Your password did not match correctly')
+            props.showAlert("Your Password is not matching","danger");
+
         }
         
         // console.log(credintial)

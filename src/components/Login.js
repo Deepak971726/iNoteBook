@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 
 
 
-const Login = () => {
+const Login = (props) => {
     const initialState ={email:"",password:""};
     const [credintial, setcredintial] = useState(initialState)
     let history = useHistory();
@@ -24,11 +24,14 @@ const Login = () => {
         if(json.success){
             //redirect
             localStorage.setItem('token',json.authtoken)
+            props.showAlert("Your Note has been Updated Successfully","success");
             history.push('/');
             
         }
         else{
             alert('please enter the valid credential')
+            props.showAlert("Please Enter the valid credential","danger");
+
         }
         // console.log(credintial)
 
