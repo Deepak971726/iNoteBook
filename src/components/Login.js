@@ -20,16 +20,18 @@ const Login = (props) => {
           body: JSON.stringify({email:credintial.email,password:credintial.password})
         })
         const json = await response.json();
-        // console.log(json);
+        console.log(json);
         if(json.success){
             //redirect
-            localStorage.setItem('token',json.authtoken)
+            console.log("token save kr diya login")
+            localStorage.setItem( "token",json.authtoken)
+            // console.log(localStorage.getItem('token'))
             props.showAlert("Your Note has been Updated Successfully","success");
             history.push('/');
             
         }
         else{
-            alert('please enter the valid credential')
+            // alert('please enter the valid credential')
             props.showAlert("Please Enter the valid credential","danger");
 
         }
@@ -45,7 +47,8 @@ const Login = (props) => {
      
 
   return (
-    <div>
+    <div className='my-5'>
+      <h1> Login to continue iNoteBook</h1>
       <form >
         <div className="mb-3">
             <label htmlFor="exampleInputEmail1" className="form-label">Email address</label>

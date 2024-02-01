@@ -14,11 +14,12 @@ const NoteState =(props)=>{
     const getNotes=async()=>{
       //todo api call
       const url = `${host}/api/notes/fetchallnotes`
+      // console.log(localStorage.getItem('token'))
     const respose = await fetch(url,{
       method:"GET",
       headers:{
         // "Content-Type":"application/json",
-        "auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjViNzNiNmY2ZDNkMjVhMzA2MjZiMWQ5In0sImlhdCI6MTcwNjUwNzY4Nn0.T_Saqw7lh3uCRgfQHdqx0DVy3M23aI05zcarMWXsu4w"
+        "auth-token":localStorage.getItem("token")
       }
       // body: JSON.stringify(e)
     })
@@ -37,7 +38,7 @@ const NoteState =(props)=>{
       method:"DELETE",
       headers:{
         "Content-Type":"application/json",
-        "auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjViNzNiNmY2ZDNkMjVhMzA2MjZiMWQ5In0sImlhdCI6MTcwNjUwNzY4Nn0.T_Saqw7lh3uCRgfQHdqx0DVy3M23aI05zcarMWXsu4w"
+        "auth-token":localStorage.getItem('token')
       }
       // body: JSON.stringify(e)
     })
@@ -58,7 +59,7 @@ const NoteState =(props)=>{
         method:"POST",
         headers:{
           "Content-Type":"application/json",
-          "auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjViNzNiNmY2ZDNkMjVhMzA2MjZiMWQ5In0sImlhdCI6MTcwNjUwNzY4Nn0.T_Saqw7lh3uCRgfQHdqx0DVy3M23aI05zcarMWXsu4w"
+          "auth-token":localStorage.getItem('token')
         },
         body: JSON.stringify({title:e.title,discription:e.discription,tag:e.tag})
       })
@@ -79,7 +80,7 @@ const NoteState =(props)=>{
         method:"PUT",
         headers:{
           "Content-Type":"application/json",
-          "auth-token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjViNzNiNmY2ZDNkMjVhMzA2MjZiMWQ5In0sImlhdCI6MTcwNjUwNzY4Nn0.T_Saqw7lh3uCRgfQHdqx0DVy3M23aI05zcarMWXsu4w"
+          "auth-token":localStorage.getItem('token')
         },
         body: JSON.stringify({title,discription,tag})
       })

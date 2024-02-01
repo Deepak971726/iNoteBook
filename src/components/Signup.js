@@ -23,7 +23,8 @@ const Signup = (props) => {
             console.log(json);
             if(json.success){
                 //redirect
-                localStorage.setItem('token',json.authtoken)
+                console.log("token save kr diya hu")
+                localStorage.setItem("token",json.authtoken)
                 props.showAlert("Your Note has been Updated Successfully","success");
                 history.push('/');
                 
@@ -52,7 +53,8 @@ const Signup = (props) => {
     }
 
   return (
-    <div onSubmit={handleOnSubmit}>
+    <div onSubmit={handleOnSubmit} className='my-5'>
+        <h1>Create a Account on iNoteBook</h1>
       <form >
       <div className="mb-3">
             <label htmlFor="exampleInputEmail1" className="form-label">Name</label>

@@ -25,7 +25,7 @@ router.post(
     // send the error in if information is not correct return bad request
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({success, errors: errors.array() });
     }
 
     // check whether the user with this email is already exist
@@ -34,7 +34,7 @@ router.post(
       if (user) {
         return res
           .status(400)
-          .json({ error: "Sorry a user with this email already exist" });
+          .json({success, error: "Sorry a user with this email already exist" });
       }
       const salt  = await bcrypt.genSalt(10);
       const secPas =await bcrypt.hash(req.body.password,salt);
@@ -49,11 +49,11 @@ router.post(
           id:user.id
         } 
       }
-      const authToken = jwt.sign(data,JWT_SECRET);
+      const authtoken = jwt.sign(data,JWT_SECRET);
       // console.log(authToken)
       // res.json(user)
       success=true
-      res.json({success,authToken});
+      res.json({success,authtoken});
 
     } catch (err) {
       console.error(err.message);

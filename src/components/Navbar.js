@@ -1,13 +1,18 @@
 import React, { useEffect } from 'react'
 
-import {Link,useLocation} from "react-router-dom";
+import {Link,useHistory,useLocation} from "react-router-dom";
 
 const Navbar=()=> {
   let location = useLocation();
+  let history = useHistory();
   useEffect(()=>{
       // console.log("location change huaa ab useEffect ki baari",location.pathname);
       // location
   },[location]);
+  const handleOnLogOut=()=>{
+      localStorage.removeItem("token");
+      history.push('/login')
+  }
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
   <div className="container-fluid">
@@ -27,11 +32,12 @@ const Navbar=()=> {
         
         
       </ul>
-      <form className="d-flex">
+       {!localStorage.getItem('token')?<form  className="d-flex">
         {/* <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/> */}
         <Link className="btn btn-outline-primary mx-3"  to='/login' role='button'>Login</Link>
         <Link className="btn btn-outline-primary" to='/signup' role='button'>Sign Up</Link>
-      </form>
+      </form>: <button className="btn btn-outline-primary mx-3"  onClick={handleOnLogOut}>Log Out</button>}
+
     </div>
   </div>
 </nav>
